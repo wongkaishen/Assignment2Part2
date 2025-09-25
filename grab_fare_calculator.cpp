@@ -29,6 +29,11 @@ int main() {
     // Display results
     displayFareBreakdown(serviceChoice, distance, timeChoice, baseFare, finalFare);
     
+    // Pause before closing
+    cout << "\nPress Enter to exit...";
+    cin.ignore();
+    cin.get();
+    
     return 0;
 }
 
@@ -179,16 +184,32 @@ double applyPeakSurcharge(double baseFare, int timeChoice) {
 }
 
 void displayFareBreakdown(int service, double distance, int timeChoice, double baseFare, double finalFare) {
-    vector<string> serviceNames = {"GrabCar", "GrabBike", "GrabShare", "GrabCar Premium"};
-    vector<string> timeNames = {"Off-Peak", "Peak Hours", "Late Night"};
+    string serviceName, timeName;
+    
+    // Safe service name selection
+    switch(service) {
+        case 1: serviceName = "GrabCar"; break;
+        case 2: serviceName = "GrabBike"; break;
+        case 3: serviceName = "GrabShare"; break;
+        case 4: serviceName = "GrabCar Premium"; break;
+        default: serviceName = "Unknown"; break;
+    }
+    
+    // Safe time name selection
+    switch(timeChoice) {
+        case 1: timeName = "Off-Peak"; break;
+        case 2: timeName = "Peak Hours"; break;
+        case 3: timeName = "Late Night"; break;
+        default: timeName = "Unknown"; break;
+    }
     
     cout << "\n========================================" << endl;
     cout << "         FARE BREAKDOWN" << endl;
     cout << "========================================" << endl;
     cout << fixed << setprecision(2);
-    cout << "Service Type    : " << serviceNames[service-1] << endl;
+    cout << "Service Type    : " << serviceName << endl;
     cout << "Distance        : " << distance << " km" << endl;
-    cout << "Time Period     : " << timeNames[timeChoice-1] << endl;
+    cout << "Time Period     : " << timeName << endl;
     cout << "----------------------------------------" << endl;
     cout << "Base Fare       : RM " << baseFare << endl;
     
