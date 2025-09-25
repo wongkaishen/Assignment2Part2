@@ -15,20 +15,31 @@ double applyPeakSurcharge(double baseFare, int timeChoice);
 void displayFareBreakdown(int service, double distance, int timeChoice, double baseFare, double finalFare);
 
 int main() {
-    displayWelcome();
+    char continueChoice;
     
-    // Get user inputs
-    int serviceChoice = getServiceChoice();
-    double distance = getDistance();
-    int timeChoice = getTimeChoice();
+    do {
+        displayWelcome();
+        
+        // Get user inputs
+        int serviceChoice = getServiceChoice();
+        double distance = getDistance();
+        int timeChoice = getTimeChoice();
+        
+        // Calculate fare
+        double baseFare = calculateBaseFare(serviceChoice, distance);
+        double finalFare = applyPeakSurcharge(baseFare, timeChoice);
+        
+        // Display results
+        displayFareBreakdown(serviceChoice, distance, timeChoice, baseFare, finalFare);
+        
+        // Ask if user wants to calculate another fare
+        cout << "\nCalculate another fare? (y/n): ";
+        cin >> continueChoice;
+        cout << "\n" << endl;
+        
+    } while (continueChoice == 'y' || continueChoice == 'Y');
     
-    // Calculate fare
-    double baseFare = calculateBaseFare(serviceChoice, distance);
-    double finalFare = applyPeakSurcharge(baseFare, timeChoice);
-    
-    // Display results
-    displayFareBreakdown(serviceChoice, distance, timeChoice, baseFare, finalFare);
-    
+    cout << "Thank you for using Grab Fare Calculator!" << endl;
     return 0;
 }
 
