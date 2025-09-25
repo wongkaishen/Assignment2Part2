@@ -118,3 +118,90 @@ int getTimeChoice() {
     }
     return choice;
 }
+
+double calculateBaseFare(int service, double distance) {
+    double baseFare, perKmRate;
+    
+    // Service-specific pricing structure
+    switch(service) {
+        case 1: // GrabCar
+            baseFare = 3.00;
+            perKmRate = 1.50;
+            break;
+        case 2: // GrabBike
+            baseFare = 2.00;
+            perKmRate = 0.80;
+            break;
+        case 3: // GrabShare
+            baseFare = 2.50;
+            perKmRate = 1.20;
+            break;
+        case 4: // GrabCar Premium
+            baseFare = 5.00;
+            perKmRate = 2.20;
+            break;
+        default:
+            baseFare = 3.00;
+            perKmRate = 1.50;
+    }
+    
+    // Calculate total base fare
+    double totalFare = baseFare + (distance * perKmRate);
+    
+    // Apply distance-based discounts for longer trips
+    if (distance > 20) {
+        totalFare *= 0.95; // 5% discount for trips over 20km
+    } else if (distance > 10) {
+        totalFare *= 0.97; // 3% discount for trips over 10km
+    }
+    
+    return totalFare;
+}
+
+double applyPeakSurcharge(double baseFare, int timeChoice) {
+    double surgeMultiplier;
+    
+    switch(timeChoice) {
+        case 1: // Off-peak
+            surgeMultiplier = 1.0;
+            break;
+        case 2: // Peak hours
+            surgeMultiplier = 1.5;
+            break;
+        case 3: // Late night
+            surgeMultiplier = 2.0;
+            break;
+        default:
+            surgeMultiplier = 1.0;
+    }
+    
+    return baseFare * surgeMultiplier;
+}
+
+void displayFareBreakdown(int service, double distance, int timeChoice, double baseFare, double finalFare) {
+    vector<string> serviceNames = {"GrabCar", "GrabBike", "GrabShare", "GrabCar Premium"};
+    vector<string> timeNames = {"Off-Peak", "Peak Hours", "Late Night"};
+    
+    cout << "\n========================================" << endl;
+    cout << "         FARE BREAKDOWN" << endl;
+    cout << "========================================" << endl;
+    cout << fixed << setprecision(2);
+    cout << "Service Type    : " << serviceNames[service-1] << endl;
+    cout << "Distance        : " << distance << " km" << endl;
+    cout << "Time Period     : " << timeNames[timeChoice-1] << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "Base Fare       : RM " << baseFare << endl;
+    
+    if (timeChoice > 1) {
+        double surgeAmount = finalFare - baseFare;
+        cout << "Surge Charge    : RM " << surgeAmount << endl;
+    }
+    
+    cout << "========================================" << endl;
+    cout << "TOTAL FARE      : RM " << finalFare << endl;
+    cout << "========================================" << endl;
+    
+    // Additional information
+    cout << "\nThank you for choosing Grab!" << endl;
+    cout << "Estimated arrival: 3-8 minutes" << endl;
+}
