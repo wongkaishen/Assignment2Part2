@@ -222,7 +222,31 @@ void displayFareBreakdown(int service, double distance, int timeChoice, double b
     cout << "TOTAL FARE      : RM " << finalFare << endl;
     cout << "========================================" << endl;
     
+      // Calculate estimated arrival time based on distance and time period
+    int baseTime, travelMultiplier;
+    
+    switch(timeChoice) {
+        case 1: // Off-peak - faster travel
+            baseTime = 3;
+            travelMultiplier = 2;
+            break;
+        case 2: // Peak hours - slower due to traffic
+            baseTime = 8;
+            travelMultiplier = 3;
+            break;
+        case 3: // Late night - fewer drivers available
+            baseTime = 12;
+            travelMultiplier = 2;
+            break;
+        default:
+            baseTime = 3;
+            travelMultiplier = 2;
+    }
+    
+    int arrivalTime = (int)(distance * travelMultiplier) + baseTime;
+    if (arrivalTime > 45) arrivalTime = 45; // Cap at 45 minutes
+    
     // Additional information
     cout << "\nThank you for choosing Grab!" << endl;
-    cout << "Estimated arrival: 3-8 minutes" << endl;
+    cout << "Estimated arrival: " << arrivalTime << " minutes" << endl;
 }
